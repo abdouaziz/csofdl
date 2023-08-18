@@ -72,16 +72,13 @@ def train_step(model , dataloader , optimizer , loss_fn):
     for step, data in tqdm(enumerate(dataloader) , total=len(dataloader)):
         inputs = data['input']
         targets = data['target']
-
+        optimizer.zero_grad()
         output = model(inputs)
-
         loss =loss_fn(output , targets)
-
         #backward 
         loss.backward()
         optimizer.step()
-        optimizer.zero_grad()
-
+        
         if step%10==0:
             print(f"Loss Training : {loss}")
             wandb.log({
